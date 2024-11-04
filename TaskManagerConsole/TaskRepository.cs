@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.Json;
 
 public class TaskRepository
@@ -22,7 +18,7 @@ public class TaskRepository
         }
 
         string json = File.ReadAllText(filePath);
-        return JsonSerializer.Deserialize<List<Task>>(json);
+        return JsonSerializer.Deserialize<List<Task>>(json) ?? new List<Task>();
     }
 
     private void SaveTasks()
@@ -41,7 +37,7 @@ public class TaskRepository
 
     public void UpdateTask(int id, string newTitle, string newDescription, bool isCompleted)
     {
-        Task task = tasks.FirstOrDefault(t => t.Id == id);
+        Task? task = tasks.FirstOrDefault(t => t.Id == id);
         if (task != null)
         {
             task.Title = newTitle;
@@ -53,7 +49,7 @@ public class TaskRepository
 
     public void DeleteTask(int id)
     {
-        Task task = tasks.FirstOrDefault(t => t.Id == id);
+        Task? task = tasks.FirstOrDefault(t => t.Id == id);
         if (task != null)
         {
             tasks.Remove(task);
@@ -61,7 +57,7 @@ public class TaskRepository
         }
     }
 
-    public Task GetTaskById(int id)
+    public Task? GetTaskById(int id)
     {
         return tasks.FirstOrDefault(t => t.Id == id);
     }
